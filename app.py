@@ -2,12 +2,12 @@
 from flask  import Flask,jsonify,abort,json,make_response
 import pymongo
 from pymongo import MongoClient
-app = Flask(__name__)
+app = Flask(__name__, static_url_path='')
 client = MongoClient()
 db = client.sfmovies
 @app.route('/')
 def index():
-    return "Welcome to SFMovies!"
+    return app.send_static_file('index.html')
 @app.route('/sfmovies/api/v1.0/movies', methods=['GET'])
 def get_movies():
     return jsonify({'movies':list(db.movies.find({},{'_id':0}))})
