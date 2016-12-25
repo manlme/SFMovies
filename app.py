@@ -3,8 +3,15 @@ from flask  import Flask,jsonify,abort,json,make_response
 import pymongo
 import os
 from pymongo import MongoClient
+from urllib.parse import quote_plus
 app = Flask(__name__, static_url_path='')
-client = MongoClient()
+mongo_host = os.environ.get('MONGODB_PORT_27017_TCP_ADDR','localhost')
+mongo_port = os.environ.get('MONGODB_PORT_27017_TCP_PORT',5000)
+mongo_username = os.environ.get('MONGODB_USERNAME','')
+mongo_password = os.environ.get('MONGODB_PASSWORD','')
+mongo_db = os.environ.get('MONGODB_INSTANCE_NAME','movies')
+uri = "mongodb://%s:%s@%s" % (quote_plus(mongo_username), quote_plus(mongo_password), mongo_host)
+client = MongoClient(uri)
 db = client.sfmovies
 @app.route('/')
 def index():
