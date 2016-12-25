@@ -10,10 +10,8 @@ mongo_port = os.environ.get('MONGODB_PORT_27017_TCP_PORT',5000)
 mongo_username = os.environ.get('MONGODB_USERNAME','admin')
 mongo_password = os.environ.get('MONGODB_PASSWORD','password')
 mongo_db = os.environ.get('MONGODB_INSTANCE_NAME','movies')
-app.logger.debug('mongo_host:'+mongo_host+";mongo_port:"+str(mongo_port)+";mongo_username:"+mongo_username+";mongo_password:"+ mongo_password + ";mongo_db:"+mongo_db)
 uri = "mongodb://%s:%s@%s:%d/%s" % (quote_plus(mongo_username), quote_plus(mongo_password), mongo_host,int(mongo_port),mongo_db)
-client = MongoClient(uri)
-db = client.sfmovies
+db = MongoClient(uri)
 @app.route('/')
 def index():
     return app.send_static_file('index.html')
