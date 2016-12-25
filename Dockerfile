@@ -1,6 +1,7 @@
 FROM ubuntu:latest
   
 # Install Python Setuptools
+Run apt-get update
 Run apt-get install -y python3 python3-dev python3-pip
   
 # Add and install Python modules
