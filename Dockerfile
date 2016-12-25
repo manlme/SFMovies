@@ -1,10 +1,9 @@
 FROM ubuntu:12.10
   
 # Install Python Setuptools
-RUN apt-get install -y python-setuptools
-  
-# Install pip
-RUN easy_install pip
+RUN add-apt-repository ppa:fkrull/deadsnakes  
+RUN apt-get update
+Run apt-get install python3.4
   
 # Add and install Python modules
 ADD requirements.txt /src/requirements.txt
