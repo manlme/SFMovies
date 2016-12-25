@@ -1,4 +1,4 @@
-FROM ubuntu:12.10
+FROM ubuntu:latest
   
 # Install Python Setuptools
 Run apt-get install -y python3 python3-dev python3-pip
