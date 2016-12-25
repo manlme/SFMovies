@@ -1,7 +1,6 @@
 FROM ubuntu:12.10
   
 # Install Python Setuptools
-RUN add-apt-repository ppa:fkrull/deadsnakes  
 RUN apt-get update
 Run apt-get install python3.4
   
