@@ -1,4 +1,4 @@
-#!/Users/jiangdaye/workspace/restfulapp/bin/python3.4
+#!python3
 from flask  import Flask,jsonify,abort,json,make_response
 import pymongo
 from pymongo import MongoClient
