@@ -1,4 +1,5 @@
 #!python3
+# -*- coding: utf-8 -*-
 from flask  import Flask,jsonify,abort,json,make_response
 import pymongo
 import os
@@ -42,7 +43,7 @@ def get_mongodb_info():
 @app.route('/sfmovies/actions/initdb', methods=['GET'])
 def init_database():
     movies = db.movies
-    with open('/src/Film_Locations_in_San_Francisco.csv', 'rt') as f:
+    with open('/src/Film_Locations_in_San_Francisco.csv', 'r', encoding='utf-8') as f:
         reader = csv.reader(f)
         for movie in reader:
             title, release_year, location, fun_fact, p_company, distributor, director, writer,actor1, actor2, actor3 = movie
