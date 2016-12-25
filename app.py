@@ -2,6 +2,7 @@
 from flask  import Flask,jsonify,abort,json,make_response
 import pymongo
 import os
+import csv
 from pymongo import MongoClient
 from urllib.parse import quote_plus
 app = Flask(__name__, static_url_path='')
@@ -30,7 +31,7 @@ def get_movie(movie_title):
 @app.route('/sfmovies/api/v1.0/movies/locations',methods=['GET'])
 def get_locations():
     return jsonify({'location':list(db.movies.distinct('location',{}))})
-@app.route('/sfmovies/dbinfo',methods=['GET'])
+@app.route('/sfmovies/actions/dbinfo',methods=['GET'])
 def get_mongodb_info():
     return jsonify(
             {'MONGODB_PORT_27017_TCP_ADDR':os.environ.get('MONGODB_PORT_27017_TCP_ADDR','localhost'),
@@ -38,6 +39,29 @@ def get_mongodb_info():
                 'MONGODB_USERNAME':os.environ.get('MONGODB_USERNAME','none'),
                 'MONGODB_PASSWORD':os.environ.get('MONGODB_PASSWORD','non'),
                 'MONGODB_INSTANCE_NAME':os.environ.get('MONGODB_INSTANCE_NAME','none')})
+@app.route('/sfmovies/actioins/initdb', methods=['GET'])
+def init_database():
+    movies = db.movies
+    with open('Film_Locations_in_San_Francisco.csv', 'r') as f:
+        reader = csv.reader(f)
+        for movie in reader:
+            title, release_year, location, fun_fact, p_company, distributor, director, writer,actor1, actor2, actor3 = movie
+            if(movies.find({'title':title}).count() >0):
+                movies.update_one({'title':title},{'$push':{'location':location,'fun_fact':fun_fact}})
+            else:
+                movie = {
+                    'title':title,
+                    'release_year':release_year,
+                    'location':[location],
+                    'fun_fact':[fun_fact],
+                    'p_company':p_company,
+                    'distributor':distributor,
+                    'director':director,
+                    'writer':writer,
+                    'actor1':actor1,
+                    'actor2':actor2,
+                    'actor3':actor3}
+                movies.insert_one(movie)
 @app.errorhandler(404)
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
