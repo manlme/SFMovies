@@ -39,10 +39,10 @@ def get_mongodb_info():
                 'MONGODB_USERNAME':os.environ.get('MONGODB_USERNAME','none'),
                 'MONGODB_PASSWORD':os.environ.get('MONGODB_PASSWORD','non'),
                 'MONGODB_INSTANCE_NAME':os.environ.get('MONGODB_INSTANCE_NAME','none')})
-@app.route('/sfmovies/actioins/initdb', methods=['GET'])
+@app.route('/sfmovies/actions/initdb', methods=['GET'])
 def init_database():
     movies = db.movies
-    with open('Film_Locations_in_San_Francisco.csv', 'r') as f:
+    with open('/src/Film_Locations_in_San_Francisco.csv', 'r') as f:
         reader = csv.reader(f)
         for movie in reader:
             title, release_year, location, fun_fact, p_company, distributor, director, writer,actor1, actor2, actor3 = movie
@@ -62,6 +62,7 @@ def init_database():
                     'actor2':actor2,
                     'actor3':actor3}
                 movies.insert_one(movie)
+    return jsonify({'insertdb':'OK'})
 @app.errorhandler(404)
 def not_found(error):
     return make_response(jsonify({'error': 'Not found'}), 404)
