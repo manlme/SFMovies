@@ -19,8 +19,6 @@
         </div>
     </div>
     <div id="main" class="container">
-    <button data-bind="click: getlocations" class="btn">GetLocations</button>
-    <text></text>
 <div class="ui-widget">
   <label for="locations">Locations: </label>
   <input id="locations">
@@ -39,8 +37,9 @@
     type: 'GET',
     cache: false,
     dataType: 'json',
-    success:function(data){availableLocations = data.location}
+    success:function(data){alert(data);availableLocations = data.location}
   });
+    alert(availableLocations)
     $( "#locations" ).autocomplete({
       source: availableLocations
     });
