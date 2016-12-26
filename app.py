@@ -29,7 +29,7 @@ def get_movie(movie_title):
     if len(movie) == 0:
         abort(404)
     return jsonify({'movie': movie[0]})
-@app.route('/sfmovies/api/v1.0/movies/locations',methods=['GET'])
+@app.route('/sfmovies/api/v1.0/locations',methods=['GET'])
 def get_locations():
     return jsonify({'location':list(db.movies.distinct('location',{}))})
 @app.route('/sfmovies/actions/dbinfo',methods=['GET'])
